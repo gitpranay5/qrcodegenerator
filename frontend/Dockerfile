@@ -1,5 +1,5 @@
 ## this is dockerfile for my frontend directory
-## stage 1 build -----
+## stage 1 build
 FROM node:18-alpine AS frontend-build
 WORKDIR /app
 COPY package*.json ./
@@ -7,7 +7,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-### stage 2 runtime -----
+### stage 2 runtime
 FROM node:18-alpine
 WORKDIR /app
 ENV NODE_ENV=production
