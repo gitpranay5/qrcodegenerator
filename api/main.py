@@ -16,7 +16,7 @@ app = FastAPI()
 ## Allowing CORS for local testing
 #origins = [
 #    "http://localhost:3000" in production I will assign a ingress ip
-#]
+##]
 
 app.add_middleware(
     CORSMiddleware,
