@@ -6,6 +6,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
+    gnupg2 \
     unixodbc-dev \
     curl && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
