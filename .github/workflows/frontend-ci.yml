@@ -70,11 +70,11 @@ jobs:
         run: echo "VERSION=v${{ github.run_number }}" >> $GITHUB_ENV
       - name: Update tag in kubernetes deployment manifest
         run: |
-          sed -i "s|image: .*|image: ${{ secrets.DOCKER_USERNAME }}/qrcode-frontend:${{ env.VERSION }}|" k8s/frontend-deployment.yaml
+          sed -i "s|image: .*|image: ${{ secrets.DOCKER_USERNAME }}/qrcode-frontend:${{ env.VERSION }}|" k8s/frontend-deployment.yml
       - name: Commit and push changes
         run: |
           git config --global user.email "pranayjujjuri@gmail.com"
           git config --global user.name "Pranay Jujjuri"
-          git add k8s/frontend-deployment.yaml
+          git add k8s/frontend-deployment.yml
           git commit -m "Updated deployment image tag to $VERSION" || echo "No changes"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
