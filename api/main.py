@@ -39,7 +39,7 @@ class URLRequest(BaseModel):
 @app.post("/generate-qr/")
 async def generate_qr(url_request: URLRequest):
     url = url_request.url
-    # Generate QR Code
+    ## Generate QR Code
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
