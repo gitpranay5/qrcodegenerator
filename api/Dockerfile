@@ -20,7 +20,7 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install --prefix=/install -r requirements.txt
 
-# Stage 2 — Runtime
+## Stage 2 — Runtime
 FROM python:3.11-slim
 WORKDIR /app
 # Install only runtime system dependencies

@@ -28,7 +28,7 @@ app.add_middleware(
 # Azure SQL Connection Configuration
 conn_str = (
     f"DRIVER={{ODBC Driver 17 for SQL Server}};"
-    f"SERVER={os.getenv('AZURE_SQL_SERVER')};"
+    f"SERVER=tcp:{os.getenv('AZURE_SQL_SERVER')}.database.windows.net,1433;"
     f"DATABASE={os.getenv('AZURE_SQL_DB')};"
     f"UID={os.getenv('AZURE_SQL_USER')};"
     f"PWD={os.getenv('AZURE_SQL_PASSWORD')}"

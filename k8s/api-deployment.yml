@@ -17,6 +17,27 @@ spec:
           image: pranaydockerusr/qrcode-api:v4
           ports:
             - containerPort: 8000
+          env:
+            - name: AZURE_SQL_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: sql-secret
+                  key: server
+            - name: AZURE_SQL_DB
+              valueFrom:
+                secretKeyRef:
+                  name: sql-secret
+                  key: database
+            - name: AZURE_SQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: sql-secret
+                  key: username
+            - name: AZURE_SQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sql-secret
+                  key: password
 
 ---
 apiVersion: v1
