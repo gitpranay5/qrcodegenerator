@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: pranaydockerusr/qrcode-frontend:v2
+          image: pranaydockerusr/qrcode-frontend:v4
           ports:
             - containerPort: 3000
 
