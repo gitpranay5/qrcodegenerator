@@ -13,7 +13,7 @@ load_dotenv()
 
 app = FastAPI()
 
-# Allowing CORS for local testing
+## Allowing CORS for local testing
 #origins = [
 #    "http://localhost:3000" in production I will assign a ingress ip
 #]

@@ -7,7 +7,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-## stage 2 runtime
+## stage 2 runtime ## this is dockerfile for my frontend directory
 FROM node:18-alpine
 WORKDIR /app
 ENV NODE_ENV=production
