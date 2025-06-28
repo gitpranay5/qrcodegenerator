@@ -38,7 +38,7 @@ class URLRequest(BaseModel):
     url: HttpUrl
 @app.post("/generate-qr/")
 async def generate_qr(url_request: URLRequest):
-    url = url_request.url
+    url = str(url_request.url)
     ## Generate QR Code
     qr = qrcode.QRCode(
         version=1,
@@ -90,8 +90,11 @@ async def generate_qr(url_request: URLRequest):
             "message": "QR code generated and saved successfully.",
             "qr_code_base64": qr_base64
         }
+    except pyodbc.Error as db_err:
+        raise HTTPException(status_code=500, detail="Database error: " + str(db_err))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Unexpected error: " + str(e))
+
 
 from prometheus_fastapi_instrumentator import Instrumentator
 
