@@ -97,6 +97,11 @@ kubectl apply -f k8s/ingress.yml
 - host: app.<IP>.nip.io  -> frontend service
 ```
 
+## Accessing the application 
+
+![image](https://github.com/user-attachments/assets/15a9c625-5dc0-4db5-a50c-add7a7099185)
+
+
 ---
 
 ## 🔍 Monitoring & Observability
@@ -121,9 +126,11 @@ kubectl apply -f k8s/ingress.yml
 
 ## 🔧 CI/CD
 
-* **CI**: GitHub Actions handles lint, test, build, Docker image push
+* **CI**: GitHub Actions handles installe packages&build, code scann using sonarqube, Docker image push and updates the k8s manifests and push to main branch
 * **CD**: ArgoCD pulls manifests and applies them to AKS
 ![alt text](image.png)
+![image](https://github.com/user-attachments/assets/711fe207-94bc-4dc5-b428-4d08b9190e1b)
+
 
 ---
 
