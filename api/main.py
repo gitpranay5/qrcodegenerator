@@ -20,7 +20,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # for testing purposes, allow all origins 
+    allow_origins=["http://app.20.12.114.71.nip.io"], # for testing purposes, allow all origins 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

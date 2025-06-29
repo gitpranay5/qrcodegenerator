@@ -8,7 +8,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: api.20.12.114.71.nip.io
+      http:
         paths:
           # FastAPI backend (http://<IP>/api/generate-qr/)
           - path: /api/
@@ -19,7 +20,9 @@ spec:
                 port:
                   number: 80
 
-          # Next.js frontend (http://<IP>/)
+    - host: app.20.12.114.71.nip.io
+      http:
+        paths:      # Next.js frontend (http://<IP>/)
           - path: /
             pathType: Prefix
             backend:
