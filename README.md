@@ -1,50 +1,162 @@
-# devops-qr-code
+# QR Code Generator (Next.js + FastAPI + Kubernetes)
 
-This is the sample application for the DevOps Capstone Project.
-It generates QR Codes for the provided URL, the front-end is in NextJS and the API is written in Python using FastAPI.
+## 🚀 Overview
 
-## Application
+A full-stack QR Code Generator deployed on Azure Kubernetes Service (AKS). It uses a FastAPI backend to generate QR codes for submitted URLs and a Next.js frontend to interact with users.
 
-**Front-End** - A web application where users can submit URLs.
+---
 
-**API**: API that receives URLs and generates QR codes. The API stores the QR codes in cloud storage(AWS S3 Bucket).
+## 🧱 Architecture
 
-## Running locally
+```
+Browser (HTTPS)  
+   ↕  
+[Ingress NGINX]  
+   ↕  
+┌──────────────┬──────────────┐
+│ Frontend App │  Backend API │
+│ (Next.js)    │ (FastAPI)    │
+└──────────────┴──────────────┘
+   ↕               ↕
+[ Azure SQL ]     [ Dockerized ]
+   ↕               ↕
+ Monitoring Stack (Prometheus, Loki, Grafana)
+```
 
-### API
+---
 
-The API code exists in the `api` directory. You can run the API server locally:
+## 🧰 Tech Stack
 
-- Clone this repo
-- Make sure you are in the `api` directory
-- Create a virtualenv by typing in the following command: `python -m venv .venv`
-- Install the required packages: `pip install -r requirements.txt`
-- Create a `.env` file, and add you AWS Access and Secret key, check  `.env.example`
-- Also, change the BUCKET_NAME to your S3 bucket name in `main.py`
-- Run the API server: `uvicorn main:app --reload`
-- Your API Server should be running on port `http://localhost:8000`
+* **Frontend**: Next.js (React-based)
+* **Backend**: FastAPI (Python)
+* **Database**: Azure SQL (for storing QR code Base64 data)
+* **Containerization**: Docker
+* **Kubernetes**: Deployed on AKS
+* **Ingress**: NGINX Ingress Controller
+* **Observability**: Prometheus, Grafana
+* **CI/CD**: GitHub Actions + ArgoCD
 
-### Front-end
+---
 
-The front-end code exits in the `front-end-nextjs` directory. You can run the front-end server locally:
+## 📁 Project Structure
 
-- Clone this repo
-- Make sure you are in the `front-end-nextjs` directory
-- Install the dependencies: `npm install`
-- Run the NextJS Server: `npm run dev`
-- Your Front-end Server should be running on `http://localhost:3000`
+```
+qrcodegenerator/
+├── backend/                  # FastAPI application
+├── frontend/                 # Next.js application
+├── k8s/                      # Kubernetes manifests
+│   ├── api-deployment.yml
+│   ├── frontend-deployment.yml
+│   ├── ingress.yml
+│   └── monitoring-ingress.yml
+└── .github/workflows/       # GitHub Actions CI pipelines
 
+```
 
-## Goal
+---
 
-The goal is to get hands-on with DevOps practices like Containerization, CICD and monitoring.
+## 🧪 Local Development
 
-Look at the capstone project for more detials.
+### 🖥️ Frontend
 
-## Author
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-[Rishab Kumar](https://github.com/rishabkumar7)
+URL: `http://localhost:3000`
 
-## License
+### ⚙️ Backend
 
-[MIT](./LICENSE)
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+URL: `http://localhost:8000/generate-qr/`
+
+---
+
+## ☁️ Kubernetes Deployment (AKS)
+
+### Apply App Deployments
+
+```bash
+kubectl apply -f k8s/api-deployment.yml
+kubectl apply -f k8s/frontend-deployment.yml
+kubectl apply -f k8s/ingress.yml
+```
+
+### Ingress Configuration
+
+```yaml
+# ingress.yml
+- host: api.<IP>.nip.io  -> api service
+- host: app.<IP>.nip.io  -> frontend service
+```
+
+---
+
+## 🔍 Monitoring & Observability
+
+### 📊 Prometheus + Grafana
+
+* **Data source**: Prometheus added in Grafana
+* **Dashboards**:
+
+  * Kubernetes Metrics (`ID: 6417`)
+  * Node Exporter (`ID: 1860`)
+
+### Monitoring Ingress
+
+```yaml
+# monitoring-ingress.yml
+- host: grafana.<IP>.nip.io
+- host: prometheus.<IP>.nip.io
+```
+
+---
+
+## 🔧 CI/CD
+
+* **CI**: GitHub Actions handles lint, test, build, Docker image push
+* **CD**: ArgoCD pulls manifests and applies them to AKS
+![alt text](image.png)
+
+---
+
+## 🧠 Troubleshooting
+
+| Issue                        | Fix                                            |                                   |
+| ---------------------------- | ---------------------------------------------- | --------------------------------- |
+| 404 on `/generate-qr/`       | Rewrite rule with regex \`/api(/               | \$)(.\*)`+`rewrite-target: /\$2\` |
+| Grafana 404                  | Add `GF_SERVER_ROOT_URL` in env vars           |                                   |
+| Logs missing in Grafana      | Check Loki/Promtail setup, verify labels       |                                   |
+| Load balancer not forwarding | Check health probe `/healthz` returns `200 OK` |                                   |
+
+---
+
+### 📈 Future Enhancements
+## 📦 Loki + Promtail
+
+* Logs sent from pods to Loki
+* View logs via **Explore** tab in Grafana
+
+* [ ] HTTPS via cert-manager + Let's Encrypt
+* [ ] Alerting rules in Prometheus
+* [ ] Blackbox monitoring for frontend
+* [ ] User auth for frontend (optional)
+
+---
+
+## 📜 License
+
+MIT License
+
+---
+
+## 🔗 Author
+
+[Pranay Jujjuri](https://github.com/gitpranay5)
