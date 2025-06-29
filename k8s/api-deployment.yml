@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: pranaydockerusr/qrcode-api:v9
+          image: pranaydockerusr/qrcode-api:v11
           ports:
             - containerPort: 8000
           env:
