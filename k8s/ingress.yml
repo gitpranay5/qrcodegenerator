@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: qrcode-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 spec:
   ingressClassName: nginx
@@ -11,9 +11,8 @@ spec:
     - host: api.20.12.114.71.nip.io
       http:
         paths:
-          # FastAPI backend (http://<IP>/api/generate-qr/)
-          - path: /api/
-            pathType: Prefix
+          - path: /api(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: api
@@ -22,7 +21,7 @@ spec:
 
     - host: app.20.12.114.71.nip.io
       http:
-        paths:      # Next.js frontend (http://<IP>/)
+        paths:
           - path: /
             pathType: Prefix
             backend:
